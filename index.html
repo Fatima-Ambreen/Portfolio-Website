@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fatima Ambreen | Exploring Data, Insights & Innovation</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* ======================================= */
+      /* === 1. GLOBAL STYLES & VARIABLES (DARK MODE) === */
+      /* ======================================= */
+      :root {
+        --color-dark-bg: #121212; /* Primary dark background */
+        --color-card-bg: #1e1e1e; /* Darker block elements (cards) */
+        --color-text-light: #f0f0f0; /* Mostly white text */
+        --color-accent-pop: #00ffff; /* Electric Cyan - The popping color */
+        --color-shadow: rgba(0, 255, 255, 0.2); /* Soft shadow for pop */
+        --color-border: rgba(255, 255, 255, 0.1);
+        --font-main: "Inter", sans-serif;
+        --transition-speed: 0.4s;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--color-dark-bg);
+        color: var(--color-text-light);
+        line-height: 1.6;
+        overflow-x: hidden; /* Prevent horizontal scroll from animations */
+      }
+
+      a {
+        color: var(--color-accent-pop);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      a:hover {
+        color: white;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Utility Class for Popping Text */
+      .accent-text {
+        color: var(--color-accent-pop);
+      }
+
+      /* ======================================= */
+      /* === 2. SCROLL PROGRESS BAR === */
+      /* ======================================= */
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background-color: var(--color-accent-pop);
+        z-index: 100;
+        box-shadow: 0 0 10px var(--color-accent-pop);
+      }
+
+      /* ======================================= */
+      /* === 3. NAVIGATION BAR === */
+      /* ======================================= */
+      header {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--color-border);
+        position: sticky;
+        top: 0;
+        background-color: var(--color-dark-bg);
+        z-index: 50;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 800;
+      }
+
+      .nav-links a {
+        margin-left: 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        opacity: 0.8;
+        transition: opacity var(--transition-speed);
+      }
+
+      .nav-links a:hover {
+        opacity: 1;
+      }
+
+      /* ======================================= */
+      /* === 4. HERO SECTION (INITIAL SLIDE-IN) === */
+      /* ======================================= */
+      #hero {
+        padding: 100px 0;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        /* Simple Background pattern for interest */
+        background: radial-gradient(
+            circle at center,
+            rgba(30, 30, 30, 0.5) 1px,
+            transparent 1px
+          )
+          0 0 / 20px 20px;
+      }
+
+      /* GALACTIC BACKGROUND STYLES */
+      .gradient-flow-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1; /* Behind hero content */
+        opacity: 0.7;
+        filter: saturate(1.5);
+      }
+
+      @keyframes gradientShift {
+        0% {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+          transform: translate(0%, 0%) rotate(360deg);
+        }
+      }
+
+      .gradient-flow-container::before,
+      .gradient-flow-container::after {
+        content: "";
+        position: absolute;
+        width: 200vw;
+        height: 200vh;
+        top: -50vh;
+        left: -50vw;
+        background: radial-gradient(
+            circle at 10% 50%,
+            rgba(81, 45, 168, 0.6) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 20%,
+            rgba(236, 64, 122, 0.6) 0%,
+            transparent 50%
+          );
+        border-radius: 45%;
+        animation: gradientShift 60s linear infinite;
+      }
+
+      .gradient-flow-container::after {
+        background: radial-gradient(
+            circle at 5% 50%,
+            rgba(41, 128, 185, 0.6) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            circle at 90% 90%,
+            rgba(0, 229, 255, 0.3) 0%,
+            transparent 70%
+          );
+        animation: gradientShift 75s linear infinite reverse;
+        opacity: 0.9;
+        border-radius: 55%;
+      }
+
+      #particle-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2; /* Below hero content */
+      }
+
+      .hero-content {
+        max-width: 800px;
+      }
+
+      .hero-content h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        overflow: hidden; /* Needed for text slide animation */
+      }
+
+      .hero-content h1 span {
+        display: block; /* Allows block-level animation for each word/line */
+      }
+
+      .hero-content p {
+        font-size: 1.3rem;
+        color: #ccc;
+        margin-bottom: 40px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--color-accent-pop);
+        color: var(--color-dark-bg);
+        font-weight: 600;
+        border: 2px solid var(--color-accent-pop);
+        border-radius: 4px;
+        letter-spacing: 1px;
+        transition: all var(--transition-speed);
+      }
+
+      .cta-button:hover {
+        background-color: transparent;
+        color: var(--color-accent-pop);
+        box-shadow: 0 0 15px var(--color-accent-pop);
+      }
+
+      /* ======================================= */
+      /* === 5. SECTION STYLING & HEADINGS === */
+      /* ======================================= */
+      section {
+        padding: 80px 0;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-left: 5px solid var(--color-accent-pop);
+        padding-left: 20px;
+      }
+
+      /* ======================================= */
+      /* === 6. SKILLS SECTION === */
+      /* ======================================= */
+      #skills {
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .skill-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: var(--color-card-bg); /* Dark Block */
+        border-radius: 8px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        flex-basis: 120px;
+        flex-grow: 1;
+        cursor: default;
+        border: 1px solid transparent;
+      }
+
+      .skill-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+        border: 1px solid var(--color-accent-pop);
+      }
+
+      .skill-item i {
+        font-size: 3rem;
+        color: var(--color-accent-pop); /* Popping color for icons */
+        margin-bottom: 10px;
+      }
+
+      .skill-item p {
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      /* Custom tool icons */
+      .icon-powerbi,
+      .icon-canva,
+      .icon-sql {
+        width: 3rem;
+        height: 3rem;
+        background-color: var(--color-accent-pop);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-dark-bg);
+        font-style: normal;
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      /* ======================================= */
+      /* === 7. PROJECTS SECTION & CARDS === */
+      /* ======================================= */
+      #projects {
+        position: relative;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .project-card {
+        background-color: var(--color-card-bg); /* Dark Block */
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 25px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth, complex transition */
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Popping hover effect */
+      .project-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px var(--color-shadow);
+        border-color: var(--color-accent-pop);
+      }
+
+      .project-card h3 {
+        font-size: 1.5rem;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .project-card .img-placeholder {
+        width: 100%;
+        height: 180px;
+        background-color: #333;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+
+      .project-card .tech-list {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-bottom: 15px;
+        min-height: 40px; /* Ensure cards are uniform height */
+      }
+
+      .project-card .github-link {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: var(--color-accent-pop);
+        color: var(--color-dark-bg);
+        font-weight: 600;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+      }
+
+      .project-card .github-link i {
+        margin-right: 5px;
+      }
+
+      /* ======================================= */
+      /* === 8. PROJECT DETAIL SLIDE-OUT PANEL === */
+      /* ======================================= */
+      #project-details-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 400px;
+        height: 100%;
+        background-color: var(--color-card-bg); /* Dark Block */
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        z-index: 500;
+        padding: 40px;
+        transform: translateX(100%); /* Start off-screen */
+        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Super duper animation curve */
+        overflow-y: auto;
+        border-left: 3px solid var(--color-accent-pop);
+      }
+
+      #project-details-panel.open {
+        transform: translateX(0); /* Slide in */
+      }
+
+      .back-button {
+        background: none;
+        border: none;
+        color: var(--color-text-light);
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        transition: color 0.3s;
+      }
+
+      .back-button:hover {
+        color: var(--color-accent-pop);
+      }
+
+      #detail-img-placeholder {
+        width: 100%;
+        height: 200px;
+        background-color: #333;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 1.5rem;
+      }
+
+      #detail-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: var(--color-accent-pop);
+      }
+
+      #detail-technologies strong {
+        color: var(--color-accent-pop);
+        display: block;
+        margin-top: 20px;
+      }
+
+      #detail-github-link {
+        display: block;
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      /* ======================================= */
+      /* === 9. ANIMATIONS (The 10/10 Part) === */
+      /* ======================================= */
+
+      /* A. Text Slide-In Animation (for Hero) */
+      @keyframes textSlideIn {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .animated-text {
+        /* Start text off-screen */
+        transform: translateY(100%);
+        opacity: 0;
+        animation: textSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+          forwards;
+      }
+
+      /* Apply staggered delays */
+      .animated-text:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .animated-text:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .animated-text:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .animated-text:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      /* B. Scroll-Triggered Fade/Slide-Up Animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Class for elements waiting to be animated */
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      /* Class added by JS when element is in view */
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Stagger animation for grid items */
+      .projects-grid .project-card {
+        transition-delay: calc(
+          var(--i) * 0.1s
+        ); /* Stagger delay via custom property */
+      }
+
+      /* C. Footer Animation */
+      footer {
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--color-border);
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 1s ease-out;
+      }
+
+      footer.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <span class="accent-text">Fatima's</span> Portfolio
+          </div>
+          <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <section id="hero" class="container">
+      <!-- GALACTIC BACKGROUND -->
+      <div class="gradient-flow-container"></div>
+      <canvas id="particle-canvas"></canvas>
+
+      <!-- YOUR HERO CONTENT (UNCHANGED) -->
+      <div class="hero-content">
+        <h1>
+          <span class="animated-text" style="animation-delay: 0.1s"
+            >Creating <span class="accent-text">Digital</span></span
+          >
+          <span class="animated-text" style="animation-delay: 0.3s"
+            >Experiences</span
+          >
+        </h1>
+        <p class="animated-text" style="animation-delay: 0.5s">
+          Developer, designer, and data enthusiast.
+        </p>
+        <a
+          href="#projects"
+          class="cta-button animated-text"
+          style="animation-delay: 0.7s"
+        >
+          View Projects
+        </a>
+      </div>
+    </section>
+
+    <section id="skills" class="container reveal">
+      <h2>🛠️ Core <span class="accent-text">Skills</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item reveal">
+          <i class="fab fa-python"></i>
+          <p>Python</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="fas fa-chart-line icon-powerbi"></i>
+          <p>Power BI</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="icon-canva">Ca</i>
+          <p>Canva</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="fas fa-database icon-sql"></i>
+          <p>SQL</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="fab fa-html5"></i>
+          <p>HTML5</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="fab fa-css3-alt"></i>
+          <p>CSS3</p>
+        </div>
+        <div class="skill-item reveal">
+          <i class="fab fa-js-square"></i>
+          <p>JavaScript</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 50px; font-size: 1.5rem" class="reveal">
+        💡 About Me
+      </h3>
+      <p class="reveal" style="color: #ccc">
+        
+I’m Fatima Ambreen, a developer, designer, and data enthusiast who loves turning ideas into interactive projects. I enjoy solving problems with code and design, making complex things simple and engaging. Always curious, constantly experimenting, and occasionally obsessing over color palettes, I aim to create projects that are both functional and beautiful. 
+      </p>
+    </br>
+    </section>
+
+    <section id="projects" class="container">
+      <h2>📂 Featured <span class="accent-text">Work</span></h2>
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Fatima Ambreen. All Rights Reserved.</p>
+      <p>
+        <a href="https://github.com/Fatima-Ambreen" target="_blank">
+          <!-- GitHub Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            style="vertical-align: middle; margin-right: 4px"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.1 0 0 .67-.21 2.2.82a7.56 7.56 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.09.16 1.9.08 2.1.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+          GitHub
+        </a>
+        |
+        <a
+          href="https://www.linkedin.com/in/fatima-ambreen-tech/"
+          target="_blank"
+        >
+          <!-- LinkedIn Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            style="vertical-align: middle; margin-right: 4px"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175A1.175 1.175 0 010 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.21c.837 0 1.358-.554 1.358-1.248-.015-.708-.521-1.248-1.343-1.248-.822 0-1.358.54-1.358 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.21V9.359c0-.216.016-.432.08-.586.174-.432.571-.879 1.237-.879.872 0 1.22.663 1.22 1.635v4.31h2.401V9.25c0-2.22-1.182-3.252-2.758-3.252-1.28 0-1.845.703-2.164 1.196v.027h-.016a5.6 5.6 0 0 1 .016-.027V6.169h-2.401c.03.714 0 7.225 0 7.225h2.401z"
+            />
+          </svg>
+          LinkedIn
+        </a>
+      </p>
+    </footer>
+
+    <div id="project-details-panel">
+      <button id="back-button" class="back-button">
+        <i class="fas fa-arrow-left"></i> &nbsp; Back to Portfolio
+      </button>
+
+      <div id="detail-img-placeholder">Image Placeholder</div>
+
+      <h3 id="detail-title">Project Title</h3>
+
+      <p id="detail-description">Project description goes here.</p>
+
+      <div id="detail-technologies">
+        <strong>Technologies Used:</strong>
+        <span id="detail-tech-list">HTML, CSS, JavaScript</span>
+      </div>
+
+      <a
+        id="detail-linkedin-link"
+        class="cta-button"
+        href="#"
+        target="_blank"
+        style="margin-bottom: 10px; display: block"
+      >
+        <i class="fab fa-linkedin"></i> View LinkedIn
+      </a>
+
+      <a id="detail-github-link" class="cta-button" href="#" target="_blank">
+        <i class="fab fa-github"></i> View GitHub Repo
+      </a>
+    </div>
+
+    <script>
+      // =======================================
+      // === 10. JAVASCRIPT LOGIC & ANIMATIONS ===
+      // =======================================
+
+      // --- A. Project Data Array (EASY TO EDIT) ---
+      // Add new project objects to this array. The code handles the rest!
+      const projectsData = [
+        {
+          id: "p1",
+          title: "Netflix Clone (Beginner)",
+          description:
+            "A responsive front-end clone of the Netflix homepage built using only HTML and CSS. It recreates the modern Netflix layout with hero banners, content rows, and polished UI styling ,optimized for both mobile and desktop screens.",
+          technologies: "HTML5, CSS3",
+          githubUrl: "https://github.com/Fatima-Ambreen/Netflix-Clone",
+          linkedinUrl:
+            "https://www.linkedin.com/posts/fatima-ambreen-tech_tech-cloning-html-activity-7375193699007418368-ewzA?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaA7j0BQf6uDw309_adsQz3IpPN2Nnt9Cs",
+          imageUrl: "netflix.png",
+        },
+        {
+          id: "p2",
+          title: "Ticket Booking System",
+          description:
+            "A Python-based ticket booking system built using Object-Oriented Programming. It allows users to book different types of tickets, such as movies, museums, and flights, and stores all booking details securely in JSON files. The program also includes a simple GUI that makes the booking process easy and interactive, while providing features like viewing and updating for a complete user experience.",
+          technologies: "Python, OOP, JSON, Basic GUI (Tkinter)",
+          githubUrl: "https://github.com/Fatima-Ambreen/Ticket-Booking-System",
+          linkedinUrl:
+            "https://www.linkedin.com/posts/fatima-ambreen-tech_python-oop-json-activity-7406918930872832001-4wuo?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaA7j0BQf6uDw309_adsQz3IpPN2Nnt9Cs",
+          imageUrl: "OOP Project.png",
+        },
+        {
+          id: "p3",
+          title: "Madhav Sweets Data Visualisations",
+          description:
+            "A data visualization dashboard built for Madhav Sweets to track and analyze online sales across India. It highlights revenue trends, top-selling products, customer patterns, and regional performance using interactive charts and filters. The dashboard also enables users to drill down into specific cities, product categories, and time periods, providing actionable insights for sales strategy, inventory management, and marketing decisions.",
+          technologies: "Power BI, Excel/CSV, Data Cleaning & Modeling",
+          githubUrl:
+            "https://github.com/Fatima-Ambreen/Madhav-Sweets-Sales-Dashboard",
+          linkedinUrl:
+            "https://www.linkedin.com/posts/fatima-ambreen-tech_datavisualization-powerbi-ecommerceanalytics-activity-7405285718601756672-1Qa7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaA7j0BQf6uDw309_adsQz3IpPN2Nnt9Cs",
+          imageUrl: "Madhav visualisations.jpeg",
+        },
+        {
+          id: "p4",
+          title: "Coral Reef Health & Climate Stress Dashboard",
+          description:
+            "This Power BI dashboard analyzes coral reef health using SST (°C), pH Level, Bleaching Severity, Species Observed, and Marine Heatwave data across different Dates and Locations. It highlights patterns in coral bleaching and climate stress through interactive visualizations.",
+          technologies: "Power BI, Excel/CSV, Data Cleaning & Modeling",
+          githubUrl:
+            "https://github.com/Fatima-Ambreen/Coral-Reef-Health-Climate-Stress-Dashboard",
+          linkedinUrl:
+            "https://www.linkedin.com/posts/fatima-ambreen-tech_datavisualization-powerbi-coralreefs-activity-7405583417012367361-Vhou?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaA7j0BQf6uDw309_adsQz3IpPN2Nnt9Cs",
+          imageUrl: "Coral Reef Health & Climate Stress Dashboard.png",
+        },
+      ];
+
+      // --- B. DOM Elements ---
+      const detailLinkedinLink = document.getElementById(
+        "detail-linkedin-link"
+      );
+
+      const projectsGrid = document.getElementById("projects-grid");
+      const detailPanel = document.getElementById("project-details-panel");
+      const backButton = document.getElementById("back-button");
+
+      const detailTitle = document.getElementById("detail-title");
+      const detailDescription = document.getElementById("detail-description");
+      const detailTechList = document.getElementById("detail-tech-list");
+      const detailGithubLink = document.getElementById("detail-github-link");
+      const detailImgPlaceholder = document.getElementById(
+        "detail-img-placeholder"
+      );
+
+      // --- C. Function to Render Project Cards ---
+      function renderProjects() {
+        projectsData.forEach((project, index) => {
+          const card = document.createElement("div");
+          // Set custom property for animation stagger delay
+          card.style.setProperty("--i", index);
+          card.className = "project-card reveal";
+          card.setAttribute("data-id", project.id);
+
+          // Add click listener to open the detail panel
+          card.addEventListener("click", () => openProjectDetails(project.id));
+
+          card.innerHTML = `
+                    <div class="img-placeholder">
+    <img src="${project.imageUrl}" alt="${project.title}" style="width:100%; height:180px; object-fit:cover; border-radius:8px;">
+  </div>
+                    <h3>${project.title}</h3>
+                    <p class="tech-list">
+                        ${project.technologies}
+                    </p>
+                    <span class="github-link">
+                        <i class="fab fa-github"></i> View Details
+                    </span>
+                `;
+          projectsGrid.appendChild(card);
+        });
+      }
+
+      // --- D. Function to Handle Project Detail Panel ---
+      function openProjectDetails(id) {
+        const project = projectsData.find((p) => p.id === id);
+
+        if (project) {
+          // Populate the panel
+          detailTitle.textContent = project.title;
+          detailDescription.textContent = project.description;
+          detailTechList.textContent = project.technologies;
+          detailGithubLink.href = project.githubUrl;
+          detailLinkedinLink.href =
+            project.linkedinUrl ||
+            "https://www.linkedin.com/in/fatima-ambreen-tech/";
+          detailImgPlaceholder.innerHTML = `
+  <img 
+    src="${project.imageUrl}" 
+    alt="${project.title}" 
+    style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;"
+  >
+`;
+
+          // Slide in the panel
+          detailPanel.classList.add("open");
+          document.body.style.overflow = "hidden"; // Lock background scroll
+        }
+      }
+
+      function closeProjectDetails() {
+        detailPanel.classList.remove("open");
+        document.body.style.overflow = "auto"; // Restore scroll
+      }
+
+      // Attach event listener to back button
+      backButton.addEventListener("click", closeProjectDetails);
+
+      // --- E. Scroll Progress Bar Update ---
+      function updateProgressBar() {
+        const scrollPercent =
+          (document.documentElement.scrollTop /
+            (document.documentElement.scrollHeight -
+              document.documentElement.clientHeight)) *
+          100;
+        document.getElementById(
+          "progress-bar"
+        ).style.width = `${scrollPercent}%`;
+      }
+
+      window.addEventListener("scroll", updateProgressBar);
+      window.addEventListener("resize", updateProgressBar);
+
+      // --- F. Scroll-Triggered (Reveal) Animations ---
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: "0px",
+        threshold: 0.1, // Trigger when 10% of element is visible
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            // Stop observing once animated
+            if (entry.target.tagName !== "FOOTER") {
+              // Keep footer observable for edge cases
+              observer.unobserve(entry.target);
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Target all elements with the 'reveal' class
+      document.querySelectorAll(".reveal").forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Target the footer specifically (could use .reveal, but this ensures it is observed)
+      observer.observe(document.querySelector("footer"));
+
+      // --- G. Initial Execution ---
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProjects();
+        updateProgressBar(); // Initial check for bar position
+
+        // Re-observe dynamically added project cards after rendering
+        document.querySelectorAll(".project-card").forEach((card) => {
+          observer.observe(card);
+        });
+      });
+    </script>
+  </body>
+</html>
